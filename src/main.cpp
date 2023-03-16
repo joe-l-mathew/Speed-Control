@@ -55,23 +55,26 @@ void setup()
 void loop()
 {
   lcd.setCursor(0, 0);
-  lcd.print("Speed: "+String(speed)+"       "); //printing speed on display
+  lcd.print("Speed: " + String(speed) + "       "); // printing speed on display
+  lcd.setCursor(0, 1);
+  lcd.print("Road Limit: " + String(speedLimit) + "       "); // displayinng speed limit
 
-//giving voltage to motor
+  // giving voltage to motor
   analogWrite(16, speed * 255 / 100);
 
   // increasing speed
   if (digitalRead(incPort))
   {
-    //checking for speed is lessthan 100
-    if(speed<=100){
-      speed += 10; //increasing by 10
+    // checking for speed is lessthan 100
+    if (speed <= 100)
+    {
+      speed += 10; // increasing by 10
     }
   }
-  //decreasing speed on button press and speed is greater than 0
-  if (digitalRead(decPort)&&speed>0)
+  // decreasing speed on button press and speed is greater than 0
+  if (digitalRead(decPort) && speed > 0)
   {
-    speed -= 10; //decreasing by 10
+    speed -= 10; // decreasing by 10
   }
   // port S1E Status- HIGH/LOW
   S11E = digitalRead(S1E);
@@ -109,13 +112,12 @@ void loop()
   // speed limiting condition checking
   if (speed > speedLimit)
   {
-    //Overspeed displaying
+    // Overspeed displaying
     lcd.setCursor(0, 0);
-  lcd.print("OVERSPEED       ");
-  lcd.setCursor(0, 1);
-  // lcd.print("DETECTED    ");
-  delay(500);
-  
+    lcd.print("OVERSPEED       ");
+    lcd.setCursor(0, 1);
+    lcd.print("Road Limit: " + String(speedLimit) + "       "); // displayinng speed limit
+    delay(500);
 
     // for loop for gradual decrease of speed
     for (int i = speed; i > speedLimit; i--)
@@ -125,9 +127,8 @@ void loop()
     }
     // assigning limited speed to speed
     speed = speedLimit;
-    
   }
-  
+
   delay(300);
-  lcd.clear(); //clearing display
+  lcd.clear(); // clearing display
 }
